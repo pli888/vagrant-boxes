@@ -6,8 +6,9 @@ yum -y update
 # Install base and core groups
 # yum -y groupinstall base core
 
-# Required for downloading vagrant key
-yum -y install wget
+# Used to install common packages on all vm images
+PACKAGES="ntp bind-utils wget nfs-utils autofs bzip2 unzip mlocate yum-utils yum-plugin-remove-with-leaves deltarpm epel-release"
+yum install -y $PACKAGES
 
 # Disable SElinux
 sudo sed -i 's/enforcing/disabled/' /etc/selinux/config /etc/selinux/config
