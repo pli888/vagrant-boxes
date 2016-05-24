@@ -53,7 +53,6 @@
       "scripts": [
         "scripts/base.sh",
         "scripts/chef.sh",
-        "scripts/puppet.sh",
         "scripts/vagrant.sh",
         "scripts/virtualbox.sh",
         "scripts/cleanup.sh",
