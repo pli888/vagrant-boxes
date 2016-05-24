@@ -2,8 +2,11 @@
   "description": "A Packer template for building a CentOS 6 AMI",
   "_comment": "AMI has Chef installed",
   "variables": {
+    "build": "gigadb-centos",
+    "version": "0.0.1",
     "aws_access_key": "",
     "aws_secret_key": "",
+    "source ami": "ami-106aa373",
     "password": "centos"
   },
   "builders": [{
@@ -11,7 +14,7 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "ap-southeast-1",
-    "source_ami": "ami-106aa373",
+    "source_ami": "{{ user `source ami` }}",
     "instance_type": "t2.small",
     "ssh_pty": "true",
 
@@ -19,9 +22,9 @@
     "ssh_port": 22,
     "ssh_timeout": "10000s",
 
-    "ami_name": "amazon-ebs-centos {{timestamp}}",
+    "ami_name": "amazon-ebs-centos6 {{timestamp}}",
     "tags": {
-      "Name": "gigadb-test-ami",
+      "Name": "gigadb-centos",
       "Base_packages_installed": "no",
       "Core_packages_installed": "no",
       "iptables": "sed_disabled",
@@ -34,10 +37,11 @@
       "scripts": [
         "scripts/aws-set-pwd.sh",
         "scripts/common.sh",
-        "scripts/create-vagrant-user.sh",
+        "scripts/vagrant.sh",
         "scripts/chef.sh",
         "scripts/cleanup.sh",
-        "scripts/info.sh"
+        "scripts/info.sh",
+        "scripts/aws-unset-pwd.sh"
         ],
       "execute_command": "echo '{{ user `password` }}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     }
